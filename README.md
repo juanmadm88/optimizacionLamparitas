@@ -5,6 +5,9 @@ $ git clone https://github.com/juanmadm88/optimizacionLamparitas.git
 $ npm i
 3_Ejecutar el programa a través del comando 
 $ node index.js
+4_En caso de querer modificar la matriz que se usa de entrada,
+Se debería editar el archivo data.txt
+
 
 La aplicación si se ejecuto correctamente debería imprimir por consola
 una matriz en donde el caracter 1 representa la posición donde haya pared, 
