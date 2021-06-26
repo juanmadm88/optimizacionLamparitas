@@ -1,0 +1,14 @@
+{
+  "name": "optimizacionlamparitas",
+  "version": "1.0.0",
+  "description": "challenge para optimizar la colocacion de lamparitas en una habitacion",
+  "main": "optimizacionLamparitas.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Di Martino Juan Martin",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "0.0.1-security"
+  }
+}

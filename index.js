@@ -1,8 +1,9 @@
-const MATRIZ_PRUEBA = [[0,0,0,1],[0,1,0,0],[0,0,1,0],[0,0,0,1]];
 const DIRECCION_DERECHA = "DIRECCION_DERECHA";
 const DIRECCION_IZQUIERDA = "DIRECCION_IZQUIERDA";
 const DIRECCION_ABAJO = "DIRECCION_ABAJO";
 const DIRECCION_ARRIBA = "DIRECCION_ARRIBA";
+const TEXT_FILE = "data.txt";
+const fs = require("fs");
 
 const optimizarLamparitas = (cantidadFilas,cantidadColumnas,habitacion) => {
   for(let fila = 0; fila < cantidadFilas; fila++){
@@ -16,7 +17,7 @@ const optimizarLamparitas = (cantidadFilas,cantidadColumnas,habitacion) => {
             !revisarAldedor(posicion,DIRECCION_ARRIBA,limite,habitacion) &&
             !revisarAldedor(posicion,DIRECCION_ABAJO,limite,habitacion)
           )
-          habitacion[fila][columna] = 2;
+          habitacion[fila][columna] = '2';
       }
     } 
   }
@@ -34,7 +35,6 @@ const hayLamparita = (unaPosicion) =>{
 const noEncuentroLimite = (unNumero, limiteSuperior) =>{
   return (0 <= unNumero)&&(unNumero < limiteSuperior);
 }
-
 
 const revisarAldedor = (posicion,direccion,limite,habitacion) =>{
   let hayLamparita = false;
@@ -130,13 +130,47 @@ const moverAbajo = (posicion,limite,habitacion) =>{
 }
 
 const imprimirMatriz = (filas,matriz) =>{
+  console.log("matriz lamparitas colocadas ");
   for(let fila = 0; fila < filas ; fila++){
     console.log(matriz[fila]);
   }
 }
 
-let matrizResultado = optimizarLamparitas(4,4,MATRIZ_PRUEBA);
-console.log("matriz lamparitas colocadas ");
-imprimirMatriz(4,matrizResultado);
+const leerArchivo = () =>{
+  let respuesta = [];
+  let data = [];
+  try {
+    data = fs.readFileSync(TEXT_FILE).toString().replace(/\r/g,"").split('\n');
+    for(let indice = 0; indice<data.length; indice++){
+      if(data[indice].length > 0) respuesta.push(data[indice]);
+    }
+    return respuesta; 
+  } catch (err) {
+    console.log(`fallo al leer el archivo ${err.message}`)
+  }
+}
+
+const generarMatriz = (data) =>{
+  let matriz = [];
+  let cantidadFilas = data.length;
+  let cantidadColumnas;
+
+  for(let fila = 0; fila < cantidadFilas; fila++){
+    matriz[fila] = [];
+    if(data[fila].length > 0){
+      matriz[fila] = data[fila].split(" ");
+    } 
+  }
+  cantidadColumnas = matriz[0].length;
+  
+  return {matriz,cantidadFilas, cantidadColumnas};
+}
+
+let data = leerArchivo();
+let {cantidadFilas,cantidadColumnas,matriz} = generarMatriz(data);
+
+let matrizResultado = optimizarLamparitas(cantidadFilas,cantidadColumnas,matriz);
+
+imprimirMatriz(cantidadFilas,matrizResultado);
 
 
