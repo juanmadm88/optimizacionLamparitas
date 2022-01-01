@@ -33,31 +33,18 @@ const hayLamparita = (unaPosicion) =>{
 }
 
 const noEncuentroLimite = (unNumero, limiteSuperior) =>{
-  return (0 <= unNumero)&&(unNumero < limiteSuperior);
+  return (0 <= unNumero) && (unNumero < limiteSuperior);
 }
 
 const revisarAldedor = (posicion,direccion,limite,habitacion) =>{
   let hayLamparita = false;
-  switch(direccion){
-    case DIRECCION_DERECHA:
-      hayLamparita = moverDerecha(posicion,limite,habitacion);
-      break;
-    case DIRECCION_IZQUIERDA:
-      hayLamparita = moverIzquierda(posicion,limite,habitacion);
-      break;
-    case DIRECCION_ARRIBA:
-      hayLamparita = moverArriba(posicion,limite,habitacion);
-      break;
-    case DIRECCION_ABAJO:
-      hayLamparita = moverAbajo(posicion,limite,habitacion);
-      break;
-    default:
-      break;
-  }
+  const revisarDireccionMetodo = diccionarioRevisionDireccion[direccion];
+  if(revisarDireccionMetodo) hayLamparita = revisarDireccionMetodo(posicion,limite,habitacion);
+  
   return hayLamparita;
 }
 
-const moverDerecha = (posicion,limite,habitacion) =>{
+const revisarDerecha = (posicion,limite,habitacion) =>{
   let encontrePared = false;
   let encontreLamparita = false;
   const {fila,columna} = posicion;
@@ -75,7 +62,7 @@ const moverDerecha = (posicion,limite,habitacion) =>{
   return encontreLamparita;
 }
 
-const moverIzquierda = (posicion,limite,habitacion) =>{
+const revisarIzquierda = (posicion,limite,habitacion) =>{
   let encontrePared = false;
   let encontreLamparita = false;
   const {fila,columna} = posicion;
@@ -93,7 +80,7 @@ const moverIzquierda = (posicion,limite,habitacion) =>{
   return encontreLamparita;
 }
 
-const moverArriba = (posicion,limite,habitacion) =>{
+const revisarArriba = (posicion,limite,habitacion) =>{
   let encontrePared = false;
   let encontreLamparita = false;
   const {fila,columna} = posicion;
@@ -111,7 +98,7 @@ const moverArriba = (posicion,limite,habitacion) =>{
   return encontreLamparita;
 }
 
-const moverAbajo = (posicion,limite,habitacion) =>{
+const revisarAbajo = (posicion,limite,habitacion) =>{
   let encontrePared = false;
   let encontreLamparita = false;
   const {fila,columna} = posicion;
@@ -134,6 +121,13 @@ const imprimirMatriz = (filas,matriz) =>{
   for(let fila = 0; fila < filas ; fila++){
     console.log(matriz[fila]);
   }
+}
+
+const diccionarioRevisionDireccion = {
+  DIRECCION_DERECHA:  revisarDerecha,
+  DIRECCION_IZQUIERDA: revisarIzquierda,
+  DIRECCION_ABAJO: revisarAbajo,
+  DIRECCION_ARRIBA: revisarArriba 
 }
 
 const leerArchivo = () =>{
